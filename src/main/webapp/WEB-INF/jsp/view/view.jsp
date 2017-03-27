@@ -4,9 +4,21 @@
         <title>Customer Support</title>
     </head>
     <body>
+        <c:url var="logoutUrl" value="/logout"/>
+        <form action="${logoutUrl}" method="post">
+            <input type="submit" value="Log out" />
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+        </form>
+
         <h2>Ticket #${ticketId}: <c:out value="${ticket.subject}" /></h2>
-        [<a href="<c:url value="/ticket/edit/${ticketId}" />">Edit</a>]
-        [<a href="<c:url value="/ticket/delete/${ticketId}" />">Delete</a>]<br /><br />
+        
+        <security:authorize access="hasRole('ADMIN') or principal.username=='${entry.value.customerName}'">
+            [<a href="<c:url value="/ticket/edit/${entry.key}" />">Edit</a>]
+        </security:authorize>
+        <security:authorize access="hasRole('ADMIN')">
+            [<a href="<c:url value="/ticket/delete/${entry.key}" />">Delete</a>]
+        </security:authorize>
+            <br />
         <i>Customer Name - <c:out value="${ticket.customerName}" /></i><br /><br />
         <c:out value="${ticket.body}" /><br /><br />
         <c:if test="${ticket.numberOfAttachments > 0}">
