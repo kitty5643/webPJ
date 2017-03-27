@@ -12,11 +12,11 @@
 
         <h2>Ticket #${ticketId}: <c:out value="${ticket.subject}" /></h2>
         
-        <security:authorize access="hasRole('ADMIN') or principal.username=='${entry.value.customerName}'">
-            [<a href="<c:url value="/ticket/edit/${entry.key}" />">Edit</a>]
+        <security:authorize access="hasRole('ADMIN') or principal.username=='${ticket.customerName}'">
+            [<a href="<c:url value="/ticket/edit/${ticketId}" />">Edit</a>]
         </security:authorize>
         <security:authorize access="hasRole('ADMIN')">
-            [<a href="<c:url value="/ticket/delete/${entry.key}" />">Delete</a>]
+            [<a href="<c:url value="/ticket/delete/${ticketId}" />">Delete</a>]
         </security:authorize>
             <br />
         <i>Customer Name - <c:out value="${ticket.customerName}" /></i><br /><br />
